@@ -1,13 +1,21 @@
 //* Global DOM functions
- export function append(parent, element) {
+function append(parent, element) {
     return parent.appendChild(element);
 }
 
-export function createNode(element) {
+function createNode(element) {
     return document.createElement(element);
 }
-export function addContent(parent, element) {
+function addContent(parent, element) {
     return parent.innerText = element;
 }
 
 //* Basket cookies functions
+
+function saveBasket (basket) {
+    localStorage.setItem("basket", basket);
+}
+
+function getBasket() {
+    return localStorage.getItem("basket");
+}
