@@ -1,2 +1,2 @@
 # Kanap #
-![Alt Text](https://c.tenor.com/eCaU-o47TKAAAAAd/fatal-bazooka.gif)
+![Canapi](https://i.makeagif.com/media/11-28-2015/uKosoo.gif)
