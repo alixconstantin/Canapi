@@ -1,15 +1,8 @@
 # Kanap #
+![Canapi](https://i.makeagif.com/media/11-28-2015/uKosoo.gif)
 
-This is the front end and back end server for Project 5 of the Web Developer path.
+A little project, for praticing the request and post API and the gestion of dynamique data with the localStorage ( with the shop basket ) 
 
-### Back end Prerequisites ###
+_______________________________________________________________
 
-You will need to have Node and `npm` installed locally on your machine.
-
-### Back end Installation ###
-
-Clone this repo. From the "back" folder of the project, run `npm install`. You 
-can then run the server with `node server`. 
-The server should run on `localhost` with default port `3000`. If the
-server runs on another port for any reason, this is printed to the
-console when the server starts, e.g. `Listening on port 3001`.
+This project is for the fun of coding and practicing, it is not necessary to seriously consider it, like most public projects on this account, they allow me to practice and learn, even for skills already acquired that allows us to consolidate and improve them and to always do better
