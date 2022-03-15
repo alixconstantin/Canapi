@@ -1,6 +1,7 @@
 //* Global DOM functions
 
-/** add Dom to Html
+/**
+ *  add Dom to Html
  * @param {domElement} parent where dom is added
  * @param {domElement} element which element is added
  * @returns add an element to dom
@@ -10,7 +11,8 @@ function append(parent, element) {
 }
 
 
-/** create a dom element 
+/** 
+ * create a dom element 
  * @param {domElement} element 
  */
 function createNode(element) {
@@ -18,7 +20,8 @@ function createNode(element) {
 }
 
 
-/**  add Text to an element
+/** 
+ *  add Text to an element
  * @param {domElement} parent element who got text
  * @param {string} element text ( from api )
  * @returns add text from api to the element
@@ -33,7 +36,9 @@ function addContent(parent, element) {
 function getBasket() {
     return localStorage.getItem('basket');
 }
+
 //* Basket cookies functions
+
 
 class Basket {
     constructor() {
@@ -45,16 +50,17 @@ class Basket {
         }
     }
 
-    
-    /** save the basket as strings in localStorage
+
+    /**
+     *  save the basket as strings in localStorage in JsonFormat
      */
     save() {
         localStorage.setItem("basket", JSON.stringify(this.basket));
     }
 
-
-    /**  
-     * @param {*} product 
+    /** 
+     *  add product in the localStorage
+     * @param {string-jsonFormat} product json format but as strings
      */
     add(product) {
         let sameProduct = this.basket.find(pdt => pdt.id == product.id && pdt.color == product.color);
@@ -67,11 +73,20 @@ class Basket {
         this.save();
     }
 
+    /** 
+     * Remove a product on the basket ( id )
+     * @param {string-jsonFormat} product json format but as strings
+     */
     remove(product) {
         this.basket = this.basket.filter(pdt => pdt.id != product.id);
-        save();
+        this.save();
     }
 
+    /**
+     * Add quantity to One product +=
+     * @param {string-jsonFormat} product json format but as strings
+     * @param {number} quantity quantity added to product
+     */
     addQuantity(product, quantity) {
         let sameProduct = this.basket.find(pdt => pdt.id == product.id);
         if (sameProduct != null) {
@@ -80,6 +95,11 @@ class Basket {
         this.save();
     }
 
+    /**
+     * change the quantity to another
+     * @param {string-jsonFormat} product json format but as strings
+     * @param {number} quantity the new quantity
+     */
     changeQuantity(product, quantity) {
 
         let sameProduct = this.basket.find(pdt => pdt.id == product.id);
@@ -89,6 +109,9 @@ class Basket {
         this.save();
     }
 
+    /**
+     * @returns The total quantity of all the products inside the basket
+     */
     getTotalProducts() {
         let number = 0;
         for (let product of this.basket) {
@@ -97,6 +120,9 @@ class Basket {
         return number;
     }
 
+    /**
+     * @returns The total price of all products 
+     */
     getTotalPrice() {
         let total = 0;
         for (let product of this.basket) {

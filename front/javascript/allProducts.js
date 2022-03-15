@@ -9,8 +9,6 @@ fetch(localhosting)
         }
     })
 
-
-
     //* Si la requête est OK & convertie en Json => Stock les tableaux dans une variables
     .then((data) => {
         let liste = document.querySelector(".items");
@@ -28,6 +26,7 @@ fetch(localhosting)
         }
         liste.innerHTML = products;
     })
+    
     //* Si la requête a l'API n'est pas bonne, envoie un message personnalisé sur la page, avec le message de l'erreur
     .catch((err) => {
         let productsContainer = document.querySelector(".items");

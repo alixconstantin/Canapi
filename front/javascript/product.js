@@ -70,7 +70,7 @@ function addBaskets() {
                 if ((productQuantity.value != 0 && productQuantity.value <= 100) && (colorSelected.value != "")) {
                     let basket = new Basket;
                     let item = {
-                        "id": produit._id,
+                        "id": parseInt(produit._id),
                         "name": produit.name,
                         "color": colorSelected.value,
                         "quantity": Number(productQuantity.value),
