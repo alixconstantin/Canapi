@@ -1,83 +1,108 @@
 //* Global DOM functions
+
+/** add Dom to Html
+ * @param {domElement} parent where dom is added
+ * @param {domElement} element which element is added
+ * @returns add an element to dom
+ */
 function append(parent, element) {
     return parent.appendChild(element);
 }
 
+
+/** create a dom element 
+ * @param {domElement} element 
+ */
 function createNode(element) {
     return document.createElement(element);
 }
 
+
+/**  add Text to an element
+ * @param {domElement} parent element who got text
+ * @param {string} element text ( from api )
+ * @returns add text from api to the element
+ */
 function addContent(parent, element) {
     return parent.innerText = element;
 }
 
+/**
+ * @returns the actual basket with all products
+ */
+function getBasket() {
+    return localStorage.getItem('basket');
+}
 //* Basket cookies functions
 
-function saveBasket(basket) {
-    localStorage.setItem("basket", JSON.stringify(basket));
-}
-
-function getBasket() {
-    let basket = localStorage.getItem("basket");
-    if (basket == null) {
-        return [];
-    } else {
-        return JSON.parse(basket);
-    }
-}
-
-function addBasket(product) {
-    let basket = getBasket();
-    let sameProduct = basket.find(pdt => pdt.id == product.id);
-    if (sameProduct != null) {
-        sameProduct.quantity++;
-    } else {
-        product.quantity = 1;
-        basket.push(product);
+class Basket {
+    constructor() {
+        let basket = localStorage.getItem("basket");
+        if (basket == null) {
+            this.basket = [];
+        } else {
+            this.basket = JSON.parse(basket); // * If the basket exist, transform basket {strings} (localStorage) to Json Object
+        }
     }
 
-    saveBasket(basket);
-}
-
-function removeProductFromBasket(product) {
-    let basket = getBasket();
-    basket = basket.filter(pdt => pdt.id != product.id);
-    saveBasket(basket);
-}
-
-function addQuantity(product, quantity) {
-    let basket = getBasket();
-    let sameProduct = basket.find(pdt => pdt.id == product.id);
-    if (sameProduct != null) {
-        sameProduct.quantity += quantity;
+    
+    /** save the basket as strings in localStorage
+     */
+    save() {
+        localStorage.setItem("basket", JSON.stringify(this.basket));
     }
-    saveBasket(basket);
-}
 
-function changeQuantity(product, quantity) {
-    let basket = getBasket();
-    let sameProduct = basket.find(pdt => pdt.id == product.id);
-    if (sameProduct != null) {
-        sameProduct.quantity = quantity;
+
+    /**  
+     * @param {*} product 
+     */
+    add(product) {
+        let sameProduct = this.basket.find(pdt => pdt.id == product.id && pdt.color == product.color);
+        if (sameProduct != null) {
+            sameProduct.quantity += product.quantity;
+        } else {
+
+            this.basket.push(product);
+        }
+        this.save();
     }
-    saveBasket(basket);
-}
 
-
-function getTotalProducts() {
-    let basket = getBasket();
-    let number = 0;
-    for(let product of basket) {
-        number += product.quantity;
+    remove(product) {
+        this.basket = this.basket.filter(pdt => pdt.id != product.id);
+        save();
     }
-    return number;
-}
 
-function getTotalPrice() {
-    let basket = getBasket();
-    let total = 0;
-    for(let product of basket) {
-        total += product.quantity * product.price;
+    addQuantity(product, quantity) {
+        let sameProduct = this.basket.find(pdt => pdt.id == product.id);
+        if (sameProduct != null) {
+            sameProduct.quantity += quantity;
+        }
+        this.save();
     }
-    return total;
+
+    changeQuantity(product, quantity) {
+
+        let sameProduct = this.basket.find(pdt => pdt.id == product.id);
+        if (sameProduct != null) {
+            sameProduct.quantity = quantity;
+        }
+        this.save();
+    }
+
+    getTotalProducts() {
+        let number = 0;
+        for (let product of this.basket) {
+            number += product.quantity;
+        }
+        return number;
+    }
+
+    getTotalPrice() {
+        let total = 0;
+        for (let product of this.basket) {
+            total += product.quantity * product.price;
+        }
+        return total;
+    }
+
 }
