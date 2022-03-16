@@ -2,6 +2,7 @@ let article = "";
 let cart_items = document.querySelector('.cart__items');
 let articles = getBasket();
 let basket = JSON.parse(articles);
+let btnOrder = document.querySelector('#order');
 
 // TODO : réparer parseInt de l'objet 4 et 8 ( pb : string en début d'id )
 
@@ -33,8 +34,9 @@ function getArticles() {
       </div>
     </div>
   </article>`
+  console.log(basket[index].id);
   }
-
+ 
   cart__items.innerHTML = article;
 }
 
@@ -42,24 +44,95 @@ function deleteArticle(identifiant) {
 
   let basket = new Basket()
   basket.remove({
-    id: identifiant
+    id:`' ${identifiant}' ` 
   });
   location.reload();
-
 }
 
 function changeQuantity(identifiant) {
 
   for (index in basket) {
-    let basket = new Basket()
+    let cat = new Basket()
     const val = document.querySelectorAll('input')[index].value;
-    basket[index].changeQuantity({
+    cat.changeQuantity({
       id: identifiant
     }, val);
-
+    location.reload();
   }
+}
+
+function totalPrice() {
+
+  let priceDom = document.querySelector("#totalPrice");
+  let basket = new Basket();
+  let priceAmount = basket.getTotalPrice();
+  priceDom.innerText = priceAmount;
+}
+
+function sendOrder() {
+
+  btnOrder.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    let basket = new Basket();
+
+    let order = {
+      contact: {
+      "firstName": firstName.value,
+      "lastName": lastName.value,
+      "address": address.value,
+      "city": city.value,
+      "email": email.value,
+    },
+     products : ["107fb5b75607497b96722bda5b50496"]
+     //  JSON.stringify(basket.getAllId())
+    }
+    // console.log(order);
+
+ 
+
+    
+    const options = {
+      method: "POST",
+      body: JSON.stringify(order),
+      headers: { "Content-Type": "application/json" },
+    };
+
+    fetch("http://localhost:3000/api/products/order", options)
+        .then((response) => response.json())
+        .then((data) => {
+          
+          console.log(data)
+
+        })
+        .catch((err) => {
+          alert("Il y a eu une erreur : " + err);
+        }); 
+
+        /*
+        const url = "http://localhost:3000/api/products/order";
+        fetch(url, {
+          method: "POST",
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(order)
+      }) */
+    
+
+    
+  })
+
 }
 
 
 
-getArticles();
+function main() {
+
+  getArticles();
+  totalPrice();
+  sendOrder();
+
+} 
+
+ main();

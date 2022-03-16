@@ -130,5 +130,18 @@ class Basket {
         }
         return total;
     }
+    /**
+     * @returns All the ID products in an array
+     */
+    getAllId(){
+        let allId = [];
+
+        for (let product of this.basket) {
+           let Id = product.id;
+           allId.push(Id);
+        }
+
+        return allId;
+    }
 
 }
