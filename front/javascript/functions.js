@@ -78,7 +78,7 @@ class Basket {
      * @param {string-jsonFormat} product json format but as strings
      */
     remove(product) {
-        this.basket = this.basket.filter(pdt => pdt.id != product.id);
+        this.basket = this.basket.filter(pdt => pdt.id != product.id && pdt.color != product.color);
         this.save();
     }
 
@@ -97,7 +97,7 @@ class Basket {
 
     /**
      * change the quantity to another
-     * @param {string-jsonFormat} product json format but as strings
+     * @param {string} product id in string
      * @param {number} quantity the new quantity
      */
     changeQuantity(product, quantity) {
