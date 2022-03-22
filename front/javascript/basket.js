@@ -31,7 +31,7 @@ function getArticles()
           <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${basket[index].quantity}">
         </div>
         <div class="cart__item__content__settings__delete">
-          <p class="deleteItem" onclick="deleteArticle()">Delete</p>
+          <p class="deleteItem">Delete</p>
         </div>
       </div>
     </div>
@@ -48,9 +48,9 @@ function getArticles()
     {
       let suppr = new Basket();
       suppr.remove({
-        id: basket[index].id
+        id: basket[index].id,
       });
-      location.reload();
+       location.reload();
     })
 
   }

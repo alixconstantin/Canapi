@@ -78,8 +78,9 @@ class Basket {
      * @param {string-jsonFormat} product json format but as strings
      */
     remove(product) {
-        this.basket = this.basket.filter(pdt => pdt.id != product.id && pdt.color != product.color);
-        this.save();
+        console.log(product);
+        this.basket = this.basket.filter(pdt => pdt.id != product.id);
+        this.save(); 
     }
 
     /**
