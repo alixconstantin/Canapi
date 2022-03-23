@@ -49,6 +49,7 @@ function getArticles()
       let suppr = new Basket();
       suppr.remove({
         id: basket[index].id,
+        color: basket[index].color
       });
        location.reload();
     })
