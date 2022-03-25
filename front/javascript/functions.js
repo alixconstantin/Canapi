@@ -6,7 +6,7 @@
  * @param {domElement} element which element is added
  * @returns add an element to dom
  */
-function append(parent, element) {
+ function append(parent, element) {
     return parent.appendChild(element);
 }
 
