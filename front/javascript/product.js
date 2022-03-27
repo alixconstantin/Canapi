@@ -80,7 +80,7 @@ function addBaskets() {
                          
                     }
                     basket.add(item);
-                    console.log(item);
+                    alert(`Le produit : "${item.name}" avec la couleur : "${item.color}" vient d'être ajouter ajouté au panier.`)
                 }
             })
 

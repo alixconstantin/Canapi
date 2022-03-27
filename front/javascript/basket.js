@@ -9,11 +9,9 @@ let btnOrder = document.querySelector('#order');
 /**
  * Create all products from the basket ( localStorage )
  */
-function getArticles()
-{
+function getArticles() {
 
-  for (index in basket)
-  {
+  for (index in basket) {
 
     article += `<article class="cart__item" data-id="${basket[index].id}" data-color="${basket[index].color}">
     <div class="cart__item__img">
@@ -39,32 +37,36 @@ function getArticles()
   }
   cart__items.innerHTML = article;
 
-  let deleteOption = document.querySelectorAll('.deleteItem');
 
-  //* Basket Delete function on all the producs
-  for (index in basket)
-  {
-    deleteOption[index].addEventListener('click', () =>
-    {
-      let suppr = new Basket();
+
+  const deleteOption = document.querySelectorAll('.deleteItem');
+
+  for (let i = 0; i < deleteOption.length; i++) {
+
+    deleteOption[i].addEventListener('click', (event) => {
+
+    let actualArticle = event.currentTarget.closest(".cart__item");
+    let targetID = actualArticle.dataset.id;
+    let targetColor = actualArticle.dataset.color;    
+    let suppr = new Basket();
       suppr.remove({
-        id: basket[index].id,
-        color: basket[index].color
+        id: targetID,
+        color: targetColor
       });
        location.reload();
     })
-
   }
+
+  //* Basket Delete function on all the producs
+
+
 
   //* Baskete Changing quantity function on all the producs
   let val = document.querySelectorAll('.itemQuantity');
-  for (index in basket)
-  {
+  for (index in basket) {
 
-    val[index].addEventListener('blur', () =>
-    {
-      for (let i = 0; i < val.length; i++)
-      {
+    val[index].addEventListener('blur', () => {
+      for (let i = 0; i < val.length; i++) {
         let newValue = new Basket();
         newValue.changeQuantity({
           id: basket[i].id
@@ -75,8 +77,8 @@ function getArticles()
   }
 }
 
-function totalPrice()
-{
+
+function totalPrice() {
 
   let priceDom = document.querySelector("#totalPrice");
   let basket = new Basket();
@@ -84,11 +86,9 @@ function totalPrice()
   priceDom.innerText = priceAmount;
 }
 
-function sendOrder()
-{
+function sendOrder() {
 
-  btnOrder.addEventListener('click', (evt) =>
-  {
+  btnOrder.addEventListener('click', (evt) => {
     evt.preventDefault();
     let basket = new Basket();
 
@@ -101,9 +101,9 @@ function sendOrder()
         "email": email.value,
       },
       products: basket.getAllId()
-   
+
     }
-     console.log(order);
+    console.log(order);
 
 
 
@@ -118,15 +118,13 @@ function sendOrder()
 
     fetch("http://localhost:3000/api/products/order", options)
       .then((response) => response.json())
-      .then((data) =>
-      {
-      localStorage.clear();
-      localStorage.setItem("orderId", data.orderId);
-      document.location.href = "confirmation.html";
+      .then((data) => {
+        localStorage.clear();
+        localStorage.setItem("orderId", data.orderId);
+        document.location.href = "confirmation.html";
 
       })
-      .catch((err) =>
-      {
+      .catch((err) => {
         alert("Il y a eu une erreur : " + err);
       });
 
@@ -136,8 +134,7 @@ function sendOrder()
 
 
 
-function main()
-{
+function main() {
 
   getArticles();
   totalPrice();

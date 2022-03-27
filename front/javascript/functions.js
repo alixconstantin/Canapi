@@ -79,7 +79,7 @@ class Basket {
      */
     remove(product) {
         console.log(product);
-        this.basket = this.basket.filter(pdt => pdt.id != product.id && pdt.color != product.color);
+        this.basket = this.basket.filter(pdt => pdt.id != product.id || pdt.color != product.color);
         this.save(); 
     }
 
