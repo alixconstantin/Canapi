@@ -1,8 +1,9 @@
-let params = (new URL(document.location)).searchParams;
-let id = params.get('id');
-console.log(id);
+let queryString = window.location.search;
+let urlParams = new URLSearchParams(queryString);
+let orderID = urlParams.get('orderId');
 
 const orderId = document.querySelector("#orderId");
-orderId.innerText = localStorage.getItem("orderId");
+orderId.innerText = orderID;
+
 localStorage.clear();
 

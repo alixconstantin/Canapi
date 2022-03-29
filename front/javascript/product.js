@@ -74,7 +74,6 @@ function addBaskets() {
                         "name": produit.name,
                         "color": colorSelected.value,
                         "quantity": Number(productQuantity.value),
-                        "price": produit.price,
                         "imageUrl": produit.imageUrl,
                         "altTxt":produit.altTxt
                          
