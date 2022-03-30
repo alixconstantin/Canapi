@@ -75,25 +75,23 @@ function addBaskets() {
                         "color": colorSelected.value,
                         "quantity": Number(productQuantity.value),
                         "imageUrl": produit.imageUrl,
-                        "altTxt":produit.altTxt
-                         
+                        "altTxt": produit.altTxt
+
                     }
                     basket.add(item);
                     alert(`Produit : ${item.name}\rCouleur : ${item.color}\rQuantité : ${item.quantity}\rVient d'être ajouter ajouté au panier.`)
+                    
                 } else {
-                    if (productQuantity.value < 1){
+                    if (productQuantity.value < 1) {
                         alert(`La quantité d'un produit ne peut pas être inférieur a 1.\rQuantité actuel : ${productQuantity.value}`);
-                    }
-                    else if (productQuantity.value > 100){
+                    } else if (productQuantity.value > 100) {
                         alert(`Pour être ajouté au panier, la quantité ne peut pas être supérieur a 100\r Quantité actuel : ${productQuantity.value}`);
-                    }
-                    else {
+                    } else {
                         alert('Vous devez préciser une couleur pour ajouter le produit.')
                     }
-                   
+
                 }
-            }
-            )
+            })
 
         })
 }

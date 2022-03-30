@@ -19,7 +19,9 @@ function createNode(element) {
     return document.createElement(element);
 }
 
-
+function insertAfter(newNode, existingNode) {
+    existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+}
 /** 
  *  add Text to an element
  * @param {domElement} parent element who got text
@@ -66,6 +68,10 @@ class Basket {
         let sameProduct = this.basket.find(pdt => pdt.id == product.id && pdt.color == product.color);
         if (sameProduct != null) {
             sameProduct.quantity += product.quantity;
+            if(sameProduct.quantity > 100) {
+                sameProduct.quantity = 100;
+                alert("Bonjour, Vous posséder 100 exemplaire de ce produit, ce qui est le maximum");
+            }
         } else {
 
             this.basket.push(product);
@@ -106,6 +112,13 @@ class Basket {
         let sameProduct = this.basket.find(pdt => pdt.id == product.id && pdt.color == product.color);
         if (sameProduct != null) {
             sameProduct.quantity = quantity;
+            if(sameProduct.quantity > 100) {
+                sameProduct.quantity = 100;
+                alert('Bonjour, la quantité ne peut excéder 100');
+            }else if(sameProduct.quantity < 1) {
+                sameProduct.quantity = 1;
+                alert('Bonjour, vous ne pouvez rentrer une valeur négative');
+            }
         }
         this.save();
     }

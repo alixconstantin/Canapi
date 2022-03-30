@@ -41,7 +41,7 @@ function getArticles() {
   cart__items.innerHTML = article;
 
 
-
+  //* Basket Delete function on all the producs
   const deleteOption = document.querySelectorAll('.deleteItem');
 
   for (let i = 0; i < deleteOption.length; i++) {
@@ -60,7 +60,7 @@ function getArticles() {
     })
   }
 
-  //* Basket Delete function on all the producs
+
 
   //* Baskete Changing quantity function on all the producs
   let val = document.querySelectorAll('.itemQuantity');
@@ -71,9 +71,9 @@ function getArticles() {
         let newValue = new Basket();
         newValue.changeQuantity({
           id: basket[i].id,
-          color:basket[i].color
+          color: basket[i].color
         }, val[i].value);
-         location.reload();
+        location.reload();
       }
     });
   }
@@ -85,10 +85,10 @@ function getPrice() {
   let id = new Basket();
   let idProduct = id.getAllId();
   let quantity = []
-  for (index in basket ){
+  for (index in basket) {
     quantity.push(parseInt(basket[index].quantity));
   }
- 
+
   for (let i = 0; i < idProduct.length; i++) {
 
     fetch(`http://localhost:3000/api/products/${idProduct[i]}`)
@@ -111,7 +111,7 @@ function totalPrice() {
   let id = new Basket();
   let idProduct = id.getAllId();
   let quantity = []
-  for (index in basket ){
+  for (index in basket) {
     quantity.push(parseInt(basket[index].quantity));
   }
 
@@ -131,6 +131,10 @@ function totalPrice() {
 
 function sendOrder() {
 
+  let textRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
+  let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+  let emailRegExp = new RegExp("^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
+
   btnOrder.addEventListener('click', (evt) => {
     evt.preventDefault();
     let basket = new Basket();
@@ -146,18 +150,13 @@ function sendOrder() {
       products: basket.getAllId()
 
     }
-
-    let textRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
-    let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
-    let emailRegExp = new RegExp("^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
-
     let testForm1 = textRegExp.test(order.contact.firstName);
     let testForm2 = textRegExp.test(order.contact.lastName);
     let testForm3 = textRegExp.test(order.contact.city);
     let testForm4 = addressRegExp.test(order.contact.address);
     let testForm5 = emailRegExp.test(order.contact.email);
 
-    if (testForm1 && testForm2 && testForm3 && testForm4 && testForm5) {
+    if (testForm1 && testForm2 && testForm3 && testForm4 && testForm5 && order.products.length > 0) {
 
       const options = {
         method: "POST",
@@ -173,14 +172,85 @@ function sendOrder() {
           localStorage.clear();
           let orderID = data.orderId;
           document.location.href = "confirmation.html" + "?orderId=" + orderID;
-
-
         })
         .catch((err) => {
           alert("Il y a eu une erreur : " + err);
         });
+
     } else {
-      alert("Il y a eu une erreur dans le formulaire, merci de revoir les champs de saisie");
+
+
+      if (testForm1 == false) {
+
+        let errorDom = document.querySelector("#firstName");
+        let error = createNode("p");
+        error.id=id="firstNameErrorMsg";
+        error.innerText="Erreur dans le champs de saisie";
+        error.style.color="red";
+        error.style.fontWeight="bold";
+        insertAfter(error, errorDom);
+        errorDom.addEventListener("change", () => {
+          error.remove(); 
+        });
+       
+      } else if (testForm2 == false) {
+
+        let errorDom = document.querySelector("#lastName");
+        let error = createNode("p");
+        error.id=id="lastNameErrorMsg";
+        error.innerText="Erreur dans le champs de saisie";
+        error.style.color="red";
+        error.style.fontWeight="bold";
+        insertAfter(error, errorDom);
+        errorDom.addEventListener("change", () => {
+          error.remove(); 
+        });
+
+      } else if (testForm3 == false) {
+
+        let errorDom = document.querySelector("#address");
+        let error = createNode("p");
+        error.id=id="addressErrorMsg";
+        error.innerText="Erreur dans le champs de saisie";
+        error.style.color="red";
+        error.style.fontWeight="bold";
+        insertAfter(error, errorDom);
+        errorDom.addEventListener("change", () => {
+          error.remove(); 
+        });
+
+      } else if (testForm4 == false) {
+
+        let errorDom = document.querySelector("#city");
+        let error = createNode("p");
+        error.id=id="cityErrorMsg";
+        error.innerText="Erreur dans le champs de saisie";
+        error.style.color="red";
+        error.style.fontWeight="bold";
+        insertAfter(error, errorDom);
+        errorDom.addEventListener("change", () => {
+          error.remove(); 
+        });
+
+      } else if (testForm5 == false) {
+
+        let errorDom = document.querySelector("#email");
+        let error = createNode("p");
+        error.id=id="emailErrorMsg";
+        error.innerText="Erreur dans le champs de saisie";
+        error.style.color="red";
+        error.style.fontWeight="bold";
+        insertAfter(error, errorDom);
+        errorDom.addEventListener("change", () => {
+          error.remove(); 
+        });
+        
+
+      } else  {
+
+        alert("Votre panier est vide.");
+      }
+
     }
   })
 
@@ -194,7 +264,6 @@ function main() {
   getPrice();
   totalPrice();
   sendOrder();
-
 }
 
 main();
