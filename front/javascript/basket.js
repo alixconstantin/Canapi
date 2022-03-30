@@ -131,9 +131,9 @@ function totalPrice() {
 
 function sendOrder() {
 
-  let textRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
-  let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
-  let emailRegExp = new RegExp("^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
+  let textRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç ,.'-]+$");
+  let addressRegExp = new RegExp("^[a-zA-Z0-9àâäéèêëïîôöùûüç ,.'-]+$")
+  let emailRegExp = new RegExp("^[a-zA-Z0-9-.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
 
   btnOrder.addEventListener('click', (evt) => {
     evt.preventDefault();
