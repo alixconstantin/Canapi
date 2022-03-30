@@ -70,9 +70,10 @@ function getArticles() {
       for (let i = 0; i < val.length; i++) {
         let newValue = new Basket();
         newValue.changeQuantity({
-          id: basket[i].id
+          id: basket[i].id,
+          color:basket[i].color
         }, val[i].value);
-        location.reload();
+         location.reload();
       }
     });
   }

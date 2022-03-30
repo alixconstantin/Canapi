@@ -67,7 +67,7 @@ function addBaskets() {
         .then((data) => {
             let produit = data;
             addBasketButton.addEventListener('click', () => {
-                if ((productQuantity.value != 0 && productQuantity.value <= 100) && (colorSelected.value != "")) {
+                if ((productQuantity.value >= 1 && productQuantity.value <= 100) && (colorSelected.value != "")) {
                     let basket = new Basket;
                     let item = {
                         "id": produit._id,
@@ -79,9 +79,21 @@ function addBaskets() {
                          
                     }
                     basket.add(item);
-                    alert(`Le produit : "${item.name}" avec la couleur : "${item.color}" vient d'être ajouter ajouté au panier.`)
+                    alert(`Produit : ${item.name}\rCouleur : ${item.color}\rQuantité : ${item.quantity}\rVient d'être ajouter ajouté au panier.`)
+                } else {
+                    if (productQuantity.value < 1){
+                        alert(`La quantité d'un produit ne peut pas être inférieur a 1.\rQuantité actuel : ${productQuantity.value}`);
+                    }
+                    else if (productQuantity.value > 100){
+                        alert(`Pour être ajouté au panier, la quantité ne peut pas être supérieur a 100\r Quantité actuel : ${productQuantity.value}`);
+                    }
+                    else {
+                        alert('Vous devez préciser une couleur pour ajouter le produit.')
+                    }
+                   
                 }
-            })
+            }
+            )
 
         })
 }

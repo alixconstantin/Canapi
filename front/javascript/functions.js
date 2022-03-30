@@ -102,8 +102,8 @@ class Basket {
      * @param {number} quantity the new quantity
      */
     changeQuantity(product, quantity) {
-
-        let sameProduct = this.basket.find(pdt => pdt.id == product.id);
+        
+        let sameProduct = this.basket.find(pdt => pdt.id == product.id && pdt.color == product.color);
         if (sameProduct != null) {
             sameProduct.quantity = quantity;
         }
