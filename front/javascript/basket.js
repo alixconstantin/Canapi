@@ -132,7 +132,7 @@ function totalPrice() {
 function sendOrder() {
 
   let textRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç ,.'-]+$");
-  let addressRegExp = new RegExp("^[a-zA-Z0-9àâäéèêëïîôöùûüç ,.'-]+$")
+  let addressRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç ,.'-]+$");
   let emailRegExp = new RegExp("^[a-zA-Z0-9-.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
 
   btnOrder.addEventListener('click', (evt) => {
@@ -181,7 +181,7 @@ function sendOrder() {
 
 
       if (testForm1 == false) {
-
+        
         let errorDom = document.querySelector("#firstName");
         let error = createNode("p");
         error.id=id="firstNameErrorMsg";
@@ -189,6 +189,7 @@ function sendOrder() {
         error.style.color="red";
         error.style.fontWeight="bold";
         insertAfter(error, errorDom);
+        
         errorDom.addEventListener("change", () => {
           error.remove(); 
         });
