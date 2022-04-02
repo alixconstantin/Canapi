@@ -132,7 +132,7 @@ function totalPrice() {
 function sendOrder() {
 
   let textRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç ,.'-]+$");
-  let addressRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç ,.'-]+$");
+  let addressRegExp = /^([0-9]{1,5})+[a-zA-Z1-9 ]/gi;
   let emailRegExp = new RegExp("^[a-zA-Z0-9-.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
 
   btnOrder.addEventListener('click', (evt) => {
@@ -152,8 +152,8 @@ function sendOrder() {
     }
     let testForm1 = textRegExp.test(order.contact.firstName);
     let testForm2 = textRegExp.test(order.contact.lastName);
-    let testForm3 = textRegExp.test(order.contact.city);
-    let testForm4 = addressRegExp.test(order.contact.address);
+    let testForm3 = addressRegExp.test(order.contact.address);
+    let testForm4 = textRegExp.test(order.contact.city);
     let testForm5 = emailRegExp.test(order.contact.email);
 
     if (testForm1 && testForm2 && testForm3 && testForm4 && testForm5 && order.products.length > 0) {
