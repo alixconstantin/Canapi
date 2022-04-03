@@ -5,14 +5,13 @@ let basket = JSON.parse(articles);
 let btnOrder = document.querySelector('#order');
 
 
-
 /**
  * Create all products from the basket ( localStorage )
  */
+
 function getArticles() {
 
   for (index in basket) {
-
 
     article += `<article class="cart__item" data-id="${basket[index].id}" data-color="${basket[index].color}">
     <div class="cart__item__img">
@@ -37,11 +36,40 @@ function getArticles() {
   </article>`
 
   }
-
+  // * Add all the basket products in ONE time in the html
   cart__items.innerHTML = article;
+}
 
 
-  //* Basket Delete function on all the producs
+/**
+ * Change the quantity of a specific product
+ */
+
+function changeTheQuantity() {
+
+  let val = document.querySelectorAll('.itemQuantity');
+  for (index in basket) {
+
+    val[index].addEventListener('blur', () => {
+      for (let i = 0; i < val.length; i++) {
+        let newValue = new Basket();
+        newValue.changeQuantity({
+          id: basket[i].id,
+          color: basket[i].color
+        }, val[i].value);
+        location.reload();
+      }
+    });
+  }
+}
+
+
+/**
+ * Delete a specific product
+ */
+
+function Delete() {
+
   const deleteOption = document.querySelectorAll('.deleteItem');
 
   for (let i = 0; i < deleteOption.length; i++) {
@@ -59,25 +87,12 @@ function getArticles() {
       location.reload();
     })
   }
-
-
-
-  //* Baskete Changing quantity function on all the producs
-  let val = document.querySelectorAll('.itemQuantity');
-  for (index in basket) {
-
-    val[index].addEventListener('blur', () => {
-      for (let i = 0; i < val.length; i++) {
-        let newValue = new Basket();
-        newValue.changeQuantity({
-          id: basket[i].id,
-          color: basket[i].color
-        }, val[i].value);
-        location.reload();
-      }
-    });
-  }
 }
+
+
+/**
+ * Get the total price of one product
+ */
 
 function getPrice() {
 
@@ -96,13 +111,16 @@ function getPrice() {
         return response.json();
       })
       .then((data) => {
-
         let productPriceValue = data.price;
         priceProduct[i].innerText = productPriceValue * quantity[i] + ' €';
       })
   }
 }
 
+
+/**
+ * Get the total price of all the products
+ */
 
 function totalPrice() {
 
@@ -129,16 +147,30 @@ function totalPrice() {
   }
 }
 
+function getTotalProducts (){
+
+  let totalProducts = new Basket();
+  let total = totalProducts.getNumberProduct();
+  document.querySelector("#totalQuantity").innerText = total;
+}
+
+getTotalProducts();
+/**
+ * Sends the command if it is validated, otherwise returns a specific error
+ */
+
 function sendOrder() {
 
+  // * Regular expression to improve form security
   let textRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç ,.'-]+$");
-  let addressRegExp = /^([0-9]{1,5})+[a-zA-Z1-9 ]/gi;
+  let addressRegExp = new RegExp("^([0-9]{1,5})+[a-zA-Z1-9 ]+$");
   let emailRegExp = new RegExp("^[a-zA-Z0-9-.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
 
   btnOrder.addEventListener('click', (evt) => {
     evt.preventDefault();
     let basket = new Basket();
 
+    // * The order object will contain all the data sent by the form and the IDs of the objects ordered
     let order = {
       contact: {
         "firstName": firstName.value,
@@ -150,12 +182,15 @@ function sendOrder() {
       products: basket.getAllId()
 
     }
+
+    // * Regex test on the data received by the form
     let testForm1 = textRegExp.test(order.contact.firstName);
     let testForm2 = textRegExp.test(order.contact.lastName);
     let testForm3 = addressRegExp.test(order.contact.address);
     let testForm4 = textRegExp.test(order.contact.city);
     let testForm5 = emailRegExp.test(order.contact.email);
 
+    // * Sends the order if there are products in the basket, and the form is correctly completed
     if (testForm1 && testForm2 && testForm3 && testForm4 && testForm5 && order.products.length > 0) {
 
       const options = {
@@ -178,76 +213,76 @@ function sendOrder() {
         });
 
     } else {
-
+      // * Otherwise, returns an error, either where the form contains an error, or where the cart is empty
 
       if (testForm1 == false) {
-        
+
         let errorDom = document.querySelector("#firstName");
         let error = createNode("p");
-        error.id=id="firstNameErrorMsg";
-        error.innerText="Erreur dans le champs de saisie";
-        error.style.color="red";
-        error.style.fontWeight="bold";
+        error.id = id = "firstNameErrorMsg";
+        error.innerText = "Erreur dans le champs de saisie";
+        error.style.color = "red";
+        error.style.fontWeight = "bold";
         insertAfter(error, errorDom);
-        
+
         errorDom.addEventListener("change", () => {
-          error.remove(); 
+          error.remove();
         });
-       
+
       } else if (testForm2 == false) {
 
         let errorDom = document.querySelector("#lastName");
         let error = createNode("p");
-        error.id=id="lastNameErrorMsg";
-        error.innerText="Erreur dans le champs de saisie";
-        error.style.color="red";
-        error.style.fontWeight="bold";
+        error.id = id = "lastNameErrorMsg";
+        error.innerText = "Erreur dans le champs de saisie";
+        error.style.color = "red";
+        error.style.fontWeight = "bold";
         insertAfter(error, errorDom);
         errorDom.addEventListener("change", () => {
-          error.remove(); 
+          error.remove();
         });
 
       } else if (testForm3 == false) {
 
         let errorDom = document.querySelector("#address");
         let error = createNode("p");
-        error.id=id="addressErrorMsg";
-        error.innerText="Erreur dans le champs de saisie";
-        error.style.color="red";
-        error.style.fontWeight="bold";
+        error.id = id = "addressErrorMsg";
+        error.innerText = "Erreur dans le champs de saisie";
+        error.style.color = "red";
+        error.style.fontWeight = "bold";
         insertAfter(error, errorDom);
         errorDom.addEventListener("change", () => {
-          error.remove(); 
+          error.remove();
         });
 
       } else if (testForm4 == false) {
 
         let errorDom = document.querySelector("#city");
         let error = createNode("p");
-        error.id=id="cityErrorMsg";
-        error.innerText="Erreur dans le champs de saisie";
-        error.style.color="red";
-        error.style.fontWeight="bold";
+        error.id = id = "cityErrorMsg";
+        error.innerText = "Erreur dans le champs de saisie";
+        error.style.color = "red";
+        error.style.fontWeight = "bold";
         insertAfter(error, errorDom);
         errorDom.addEventListener("change", () => {
-          error.remove(); 
+          error.remove();
         });
 
       } else if (testForm5 == false) {
 
         let errorDom = document.querySelector("#email");
         let error = createNode("p");
-        error.id=id="emailErrorMsg";
-        error.innerText="Erreur dans le champs de saisie";
-        error.style.color="red";
-        error.style.fontWeight="bold";
+        error.id = id = "emailErrorMsg";
+        error.innerText = "Erreur dans le champs de saisie";
+        error.style.color = "red";
+        error.style.fontWeight = "bold";
         insertAfter(error, errorDom);
         errorDom.addEventListener("change", () => {
-          error.remove(); 
+          error.remove();
         });
-        
 
-      } else  {
+
+      } else {
 
         alert("Votre panier est vide.");
       }
@@ -262,6 +297,8 @@ function sendOrder() {
 function main() {
 
   getArticles();
+  Delete();
+  changeTheQuantity();
   getPrice();
   totalPrice();
   sendOrder();

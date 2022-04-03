@@ -1,6 +1,10 @@
 let params = (new URL(document.location)).searchParams;
 let id = params.get('id');
 
+
+/**
+ * Got a specific product by fetching the ID of the product on the API
+ */
 function getProduct() {
     fetch(`http://localhost:3000/api/products/${id}`)
 
@@ -10,6 +14,7 @@ function getProduct() {
             }
         })
 
+        // * Create a DOM element specific to the data retrieved by the API of the product
         .then((data) => {
             let produit = data;
 
@@ -35,12 +40,14 @@ function getProduct() {
                 append(couleursContainer, optionColor);
             }
 
+            // * Add the specific picture to the DOM, and the specific data of the product
             append(imageContainer, image);
             addContent(titleContainer, title);
             addContent(descriptionContainer, description);
             addContent(priceContainer, prix);
         })
 
+        // * If the fetch API fail, write the specific error on the page
         .catch((err) => {
             let productContainer = document.querySelector(".item");
             productContainer.innerHTML = `<h2>Problème de chargement du produit, motif de l'erreur : " ${err.message} "<br> Merci de contacter l'équipe de support a : kanap@gmail.com</h2>`;
@@ -49,11 +56,13 @@ function getProduct() {
 }
 
 
-
 let addBasketButton = document.querySelector('#addToCart');
 let productQuantity = document.querySelector('#quantity');
 let colorSelected = document.querySelector('#colors');
 
+/**
+ * add to LocalStorage the product
+ */
 function addBaskets() {
 
     fetch(`http://localhost:3000/api/products/${id}`)
@@ -64,6 +73,7 @@ function addBaskets() {
             }
         })
 
+        // * If the product have a correct quantity and selected a color
         .then((data) => {
             let produit = data;
             addBasketButton.addEventListener('click', () => {
@@ -78,9 +88,11 @@ function addBaskets() {
                         "altTxt": produit.altTxt
 
                     }
+                    // * Add the product to localStorage sends a dynamic message with the name, quantity and color of the added product
                     basket.add(item);
                     alert(`Produit : ${item.name}\rCouleur : ${item.color}\rQuantité : ${item.quantity}\rVient d'être ajouter ajouté au panier.`)
-                    
+
+                    // * Or send the specific error relative to the quantity or color
                 } else {
                     if (productQuantity.value < 1) {
                         alert(`La quantité d'un produit ne peut pas être inférieur a 1.\rQuantité actuel : ${productQuantity.value}`);
@@ -96,5 +108,9 @@ function addBaskets() {
         })
 }
 
-getProduct();
-addBaskets();
+function main() {
+    getProduct();
+    addBaskets();
+}
+
+main();

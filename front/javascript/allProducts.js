@@ -1,7 +1,7 @@
-//*  Url api de l'ensemble des produits
+//*  Url API of all products
 const localhosting = 'http://localhost:3000/api/products'
 
-//* Interroge l'API, si requête OK convertie la réponse API en Json
+//* Request API, if request is ok, return Json data
 fetch(localhosting)
     .then((response) => {
         if (response.ok) {
@@ -9,7 +9,7 @@ fetch(localhosting)
         }
     })
 
-    //* Si la requête est OK & convertie en Json => Stock les tableaux dans une variables
+    //* If request is and got json response from API, data can be used from the parameter, here data
     .then((data) => {
         let liste = document.querySelector(".items");
         let produits = data;
@@ -26,8 +26,8 @@ fetch(localhosting)
         }
         liste.innerHTML = products;
     })
-    
-    //* Si la requête a l'API n'est pas bonne, envoie un message personnalisé sur la page, avec le message de l'erreur
+
+    //* If the request to the API is not good, sends a personalized message to the page, with the error message
     .catch((err) => {
         let productsContainer = document.querySelector(".items");
         productsContainer.innerHTML = `<h2>Problème de chargement des articles, motif de l'erreur : " ${err.message} "<br> Merci de contacter l'équipe de support a : kanap@gmail.com</h2>`;
